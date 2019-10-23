@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "StartUp",
-    "slug": "StartUp",
+    "name": "StepUp",
+    "slug": "StepUp-RN",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": [

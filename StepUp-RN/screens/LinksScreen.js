@@ -1,7 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
-// import { TestView } from '../screens';
 
 export default function LinksScreen() {
   return (
@@ -11,7 +10,6 @@ export default function LinksScreen() {
        * we just wanted to provide you with some helpful links.
        */}
       <ExpoLinksView />
-      {/* <TestView /> */}
     </ScrollView>
   );
 }
