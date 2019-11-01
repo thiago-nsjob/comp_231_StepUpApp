@@ -28,6 +28,7 @@ export default class TabBodyInfo extends React.Component{
                             </Item> 
                           </Form>
                     </Container> 
+                    
     </Content>
 
   }
