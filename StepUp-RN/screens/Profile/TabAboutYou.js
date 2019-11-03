@@ -13,7 +13,9 @@ const styles = StyleSheet.create({
 });
 
 
+
 export default class TabAboutYou extends React.Component{
+
   render(){
     return     <Content>
                     <Container>
@@ -22,17 +24,17 @@ export default class TabAboutYou extends React.Component{
 
                             <Item floatingLabel style={styles.space} >
                               <Label>Email</Label>
-                              <Input />
+                              <Input  onChangeText={(e)=>this.props.onPropChange("email",e)}/>
                             </Item>
 
                             <Item floatingLabel style={styles.space}>
                               <Label>First Name</Label>
-                              <Input  />
+                              <Input  onChangeText={(e)=>this.props.onPropChange("firstName",e)}/>
                             </Item>
                             
                             <Item floatingLabel style={styles.space} >
                               <Label>Last Name</Label>
-                              <Input />
+                              <Input onChangeText={(e)=>this.props.onPropChange("lastName",e)}/>
                             </Item>
                             
                             <Item  style={styles.space} >
@@ -49,12 +51,15 @@ export default class TabAboutYou extends React.Component{
                                 placeHolderText="Select date"
                                 textStyle={{ color: "green" }}
                                 placeHolderTextStyle={{ color: "#d3d3d3" }}
-                                onDateChange={this.setDate}
+                                onDateChange={(e)=>this.props.onPropChange("dob",e)}
                                 disabled={false}
                               />
                             </Item>
                               <Label>Bio</Label>
-                              <Textarea  rowSpan={3} bordered placeholder=" about you..." style={styles.space}/>
+                              <Textarea  rowSpan={3} bordered 
+                              placeholder=" about you..." style={styles.space}
+                              onChangeText={(e)=>this.props.onPropChange("bio",e)}
+                              />
                           </Form>
                   
                     </Container> 
