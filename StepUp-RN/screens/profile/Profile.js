@@ -17,7 +17,9 @@ export default class Profile extends Component {
           firstName:"",
           lastName:"",
           dob:"",
-          bio:""
+          bio:"",
+          weight:"",
+          height:""
       }
     };
 
@@ -53,7 +55,7 @@ export default class Profile extends Component {
   render() {
     return (
       <Container>
-        <Header hasTabs />
+        <Header hasTabs style={{marging:-10}}/>
         <Tabs >
           <Tab heading={<TabHeading><Icon type="FontAwesome" name="user" /><Text>About you</Text></TabHeading>}>
             <TabAboutYou onMessage = {this.showMessage} onPropChange = {this.handlePropChange} />
