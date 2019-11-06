@@ -2,7 +2,7 @@ import React from "react";
 import { Pedometer } from "expo-sensors";
 import { StyleSheet, Text, View } from "react-native";
 
-export default class App extends React.Component {
+export default class StepsAndStats extends React.Component {
   state = {
     isPedometerAvailable: "checking",
     pastStepCount: 0,

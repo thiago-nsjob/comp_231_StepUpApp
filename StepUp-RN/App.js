@@ -8,7 +8,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 import Home from './screens/home/Home';
 import Profile from './screens/profile/Profile';
-import StepsAndStats from './screens/Steps/StepsAndStats';
+import StepsAndStats from './screens/steps/StepsAndStats';
 import{wrapIntoContext} from './components/Wrapper';
 
 
@@ -18,6 +18,9 @@ const AppNavigator = createDrawerNavigator({
   },
   Profile:{
       screen: wrapIntoContext(Profile)
+  },
+  Stats:{
+    screen: wrapIntoContext(StepsAndStats)
   }
 } );
 
