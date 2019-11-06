@@ -2,7 +2,16 @@ import React, { Component } from 'react';
 import { Container, Header, Tab, Tabs, TabHeading, Icon, Text,Left,Body,Title,Right,Button,Fab,Toast } from 'native-base';
 import TabAboutYou from './TabAboutYou';
 import TabBodyInfo from './TabBodyInfo';
+import {StyleSheet,StatusBar} from 'react-native';
 
+const styles = StyleSheet.create({
+  initialSpace: {
+    marginTop:0 + StatusBar.currentHeight,
+  },
+  title:{
+    color:'#FFF7F0'
+  }
+});
 
 
 export default class Profile extends Component {
@@ -17,7 +26,9 @@ export default class Profile extends Component {
           firstName:"",
           lastName:"",
           dob:"",
-          bio:""
+          bio:"",
+          weight:"",
+          height:""
       }
     };
 
@@ -46,14 +57,16 @@ export default class Profile extends Component {
   }
 
   handleSave(msg){
-    
     this.showMessage(msg);
   }
 
   render() {
     return (
       <Container>
-        <Header hasTabs />
+        
+        <Header hasTabs >
+          <Body><Text style={styles.title}>Profile</Text></Body>
+        </Header>
         <Tabs >
           <Tab heading={<TabHeading><Icon type="FontAwesome" name="user" /><Text>About you</Text></TabHeading>}>
             <TabAboutYou onMessage = {this.showMessage} onPropChange = {this.handlePropChange} />

@@ -1,9 +1,14 @@
 {
   "expo": {
-    "name": "StepUp",
-    "slug": "StepUp-RN",
+    "name": "StepUpProto",
+    "slug": "stepupproto",
     "privacy": "public",
     "sdkVersion": "35.0.0",
+    "androidStatusBarColor": "#334393",
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#334393"
+    },
     "platforms": [
       "ios",
       "android",
@@ -25,6 +30,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": ""
   }
 }

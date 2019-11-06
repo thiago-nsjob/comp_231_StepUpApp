@@ -11,7 +11,7 @@ return class AppContext extends React.Component{
   } 
     render(){
       return <Wrapper.Provider value={{apiManager: ApiManager}}> 
-            <WrappedComponent apiManager= {ApiManager}/>
+            <WrappedComponent apiManager= {ApiManager} {...this.props}/>
       </Wrapper.Provider>
     }
   }

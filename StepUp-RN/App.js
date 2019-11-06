@@ -1,21 +1,69 @@
 import React, { Component } from 'react';
-import { Root } from "native-base";
+import { Root,Drawer } from "native-base";
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
-import Profile from './screens/Profile/Profile';
+import { createAppContainer,createDrawerNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 
+import Home from './screens/home/Home';
+import Profile from './screens/profile/Profile';
+import StepsAndStats from './screens/steps/StepsAndStats';
 import{wrapIntoContext} from './components/Wrapper';
 
+
+const AppNavigator = createDrawerNavigator({
+  Home: {
+    screen: wrapIntoContext(Home), 
+  },
+  Profile:{
+      screen: wrapIntoContext(Profile)
+  },
+  Stats:{
+    screen: wrapIntoContext(StepsAndStats)
+  }
+} );
+
 class App extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      isReady: false,
+    };
+  }
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+      ...Ionicons.font,
+    });
+    this.setState({ isReady: true });
+  }
+
+
   render() {
-    return <Root>
-           <Profile {...this.props} />
-  </Root>;
+
+    const AppContainer =  createAppContainer(AppNavigator);
+
+    if (!this.state.isReady) {
+      return <AppLoading />;
+    }
+     return (   
+       
+       <Root>
+                <AppContainer /> 
+                {/* <StepsAndStats /> */}
+              
+      </Root>
+       
+         
+      ); 
   }
 }
 
-export default wrapIntoContext(App);
+export default App;
+
 
 
 
