@@ -8,6 +8,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 import Home from './screens/home/Home';
 import Profile from './screens/profile/Profile';
+import StepsAndStats from './screens/Steps/StepsAndStats';
 import{wrapIntoContext} from './components/Wrapper';
 
 
@@ -49,6 +50,7 @@ class App extends React.Component{
        
        <Root>
                 <AppContainer /> 
+                {/* <StepsAndStats /> */}
               
       </Root>
        

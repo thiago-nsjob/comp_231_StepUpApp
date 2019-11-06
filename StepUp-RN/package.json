@@ -19,6 +19,7 @@
     "expo-asset": "^7.0.0",
     "expo-constants": "^7.0.0",
     "expo-font": "~7.0.0",
+    "expo-sensors": "~7.0.0",
     "expo-web-browser": "^7.0.0",
     "g": "^2.0.1",
     "native-base": "^2.13.8",
