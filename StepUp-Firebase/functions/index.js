@@ -1,45 +1,29 @@
-// set up ========================
-//const functions = require('firebase-functions');
-// Firebase App (the core Firebase SDK) is always required and
-// must be listed before other Firebase SDKs
 const functions = require('firebase-functions')
-//const firebase = require('firebase-admin')
 
-var firebase = require("firebase/app")
-// Add the Firebase products that you want to use
-require("firebase/firestore")
+const express = require('express');
+const app = express();
 
-const express = require('express')
-const bodyParser = require('body-parser')
-const userRoutes = require('./src/api/user')
-const app = express()
+const userRoutes = require('./src/api/user');
+const stepsRoutes = require('./src/api/steps');
 
-
-const firebaseConfig = require('./config').firebaseConfig;
+const db = require('./src/base/db');
+const middleware = require('./src/helpers/middleware');
 
 
-firebase.initializeApp(firebaseConfig)
-const db = firebase.firestore()
-const usersRef = db.collection("UserProfile")
+const usersRef = db.collection("UserProfile");
 
-/*
-const firebaseApp = firebase.initializeApp(
-  functions.config.firebase
-)
 
-function getFacts(){
-  const ref = firebaseApp.database().ref('facts')
-  return ref.once('value').then(snap => snap.val())
-}*/
+// function getFacts(){
+//   const ref = firebaseApp.database().ref('facts')
+//   return ref.once('value').then(snap => snap.val())
+// }
+
+
+middleware.attachCommon( app );
 
 
 
 
-// Middleware
-app.use(
-    bodyParser.json(),
-    bodyParser.urlencoded({ extended: false }),
-)
 
 
 //API for User Profile
@@ -126,24 +110,17 @@ app.get('/api/getAllUser', (req,res) => {
 
 
 
-app.get('/stepup', (request, response) => {
-    response.send('hi! you requested /stepup');
-})
+// Sets up routes
 
-
-// appends all the routes in user.js to /user endpoint
 app.use('/user', userRoutes);
 
-// Error Handler
-app.use((err, _req, res, _next) => {
-    console.error(err);
-    res.json({msg: 'an error occured', err: err.message});
-})
+app.use('/steps', stepsRoutes);
 
-//app.listen(5001)
-//console.log("Server is starting at port 5001")
-exports.app = functions.https.onRequest(app) 
 
-//    \/   Un-comment these 2 lines   \/
-// const api = functions.https.onRequest( app ); // appends to firebase
-// module.exports = { api };
+
+// Appends Error Handler
+
+app.use( middleware.errorHandler );
+
+
+exports.app = functions.https.onRequest( app ); 
