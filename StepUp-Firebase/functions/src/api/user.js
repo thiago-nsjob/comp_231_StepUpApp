@@ -38,7 +38,7 @@ route.get('/getByEmail', (req, res, next) => {
         return next(new Error(`Not an email!`));
     }
 
-    let user = userProfile.doc(id);
+    let user = userProfile.doc(email);
 
     user.get().then(snapshot => {
         res.json({
