@@ -5,6 +5,7 @@ const app = express();
 
 const userRoutes = require('./src/api/user');
 const stepsRoutes = require('./src/api/steps');
+const challengesRoutes = require('./src/api/challenges');
 
 const db = require('./src/base/db');
 const middleware = require('./src/helpers/middleware');
@@ -21,11 +22,15 @@ app.use('/user', userRoutes);
 
 app.use('/steps', stepsRoutes);
 
+app.use('/challenges', challengesRoutes);
 
 
 // Appends Error Handler
 
-app.use( middleware.errorHandler );
+app.use(
+    middleware.pageNotFoundHandler,
+    middleware.internalErrorHandler
+);
 
 
 exports.app = functions.https.onRequest( app ); 

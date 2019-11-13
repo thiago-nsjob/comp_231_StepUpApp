@@ -43,10 +43,18 @@ module.exports = {
     },
 
 
-    errorHandler(err, _req, res, _next) {
+    pageNotFoundHandler(req, res) {
+        res.status(404).send(
+            `Cannot ${req.method} ${req.path}`
+        );
+    },
+
+    internalErrorHandler(err, _req, res, _next) {
         console.error(err);
         let msg = err.message || 'An error occured!';
-        res.json({ msg, err });
+        res.status(500).set({
+            'Content-Type': 'application/json'
+        }).json({ msg, err });
     }
 
 };
