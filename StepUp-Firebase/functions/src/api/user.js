@@ -8,8 +8,31 @@ const userProfile = db.collection('UserProfile');
 
 const profileData = ['email', 'firstName', 'lastName', 'dob', 'weight', 'height'];
 
+// define the home page route
+route.get('/', function (req, res) {
+    res.send('User page')
+  })
 
-// REMOVE
+  //get by email
+route.get('/getByEmail', function(req, res,next) {
+    let email = req.query.email || req.body.email;
+  
+    let user = userProfile.doc(email);
+
+    if (!email || !/^\w+\.?\w*@\w+\.\w+$/.test(email)) {
+        return next(new Error(`Not an email!`));
+    }
+
+    
+
+    user.get().then(snapshot => {
+        res.json({
+            data: snapshot.data()
+        });
+    }).catch(next);
+});
+ 
+//get by id
 route.get([
     '/get/:id',
     '/:id'
@@ -25,30 +48,6 @@ route.get([
         });
     }).catch(next);
 });
-
-
-
-// similar to "/user/:id", may remove one in the future (?)
-route.get('/getByEmail', (req, res, next) => {
-
-    // use lo.get(req, 'body.email');
-    let email = req.query.email || req.body.email;
-
-    if (!email || !/^\w+\.?\w*@\w+\.\w+$/.test(email)) {
-        return next(new Error(`Not an email!`));
-    }
-
-    let user = userProfile.doc(email);
-
-    user.get().then(snapshot => {
-        res.json({
-            data: snapshot.data()
-        });
-    }).catch(next);
-
-});
-
-
 
 route.post('/create', (req, res, next) => {
 
@@ -80,7 +79,7 @@ route.post('/create', (req, res, next) => {
 });
 
 
-
+//update
 route.put('/update', (req, res, next) => {
 
     let data = req.body;

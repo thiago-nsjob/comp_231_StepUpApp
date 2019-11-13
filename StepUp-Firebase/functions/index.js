@@ -11,13 +11,9 @@ const db = require('./src/base/db');
 const middleware = require('./src/helpers/middleware');
 
 
-//const usersRef = db.collection("UserProfile");
-
-
 middleware.attachCommon( app );
 
 // Sets up routes
-
 app.use('/user', userRoutes);
 
 app.use('/steps', stepsRoutes);
