@@ -44,16 +44,16 @@ route.put('/join/:id', extractEmail(), async (req, res, next) => {
     }
 
 
-    let data = snap.data();
+    let challenge = snap.data();
+
+    let data = {
+        joinedAt: Date.now(),
+        distance: challenge.distance,
+        progress: 0
+    };
 
     joined.doc(id).set(data).then(() => {
-        res.json({
-            msg: `${email} joined ${id}`,
-            data: {
-                distance: data.distance,
-                progress: 0
-            }
-        });
+        res.json({ msg: `${email} joined ${id}`, data });
     });
 
 });

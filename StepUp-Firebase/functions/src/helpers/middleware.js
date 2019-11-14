@@ -13,15 +13,17 @@ module.exports = {
      * @param {Express} app 
      */
     attachCommon(app) {
-        app.use(
-            helmet(),
-            bodyParser.json(),
-            bodyParser.urlencoded({ extended: false }),
-        );
+        if (app && lo.isFunction(app.use)) {
+            app.use(
+                helmet(),
+                bodyParser.json(),
+                bodyParser.urlencoded({ extended: false }),
+            );
+        }
     },
 
 
-    extractEmail({ raiseError, testRegExp }) {
+    extractEmail({ raiseError, testRegExp }={}) {
         let mw = {
             testRegExp: testRegExp != false,
             raiseError: raiseError != false

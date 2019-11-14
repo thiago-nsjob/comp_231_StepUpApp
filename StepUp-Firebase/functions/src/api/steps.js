@@ -18,26 +18,57 @@ route.use(
 );
 
 
-route.post('/log', (req, res, next) => {
+route.post('/log', async (req, res, next) => {
 
-    let email = req.email;
+    let data = {
+        steps: lo.get(req, 'body.steps', 1),
+        timestamp: lo.get(req, 'body.timestamp', Date.now())
+    };
 
-    let steps = lo.get(req, 'body.steps', 1),
-    timestamp = lo.get(req, 'body.timestamp', Date.now());
-
-    
-    if (isNaN(steps) || Number(steps) <= 0 ) {
+    if (isNaN(data.steps) || lo.toNumber(data.steps) <= 0 ) {
         return next(new Error('Steps should be a number > 0.'));
     } else {
-        steps = Number(steps);
+        data.steps = Number(data.steps);
     }
 
-    let data = { steps, timestamp };
+    let userRef = userProfile.doc(req.email);
+    let stepsTaken = userRef.collection('StepsTaken');
+    let userSnap = await userRef.get().catch(next);
+    
+    let joinedChallenges = userRef.collection('JoinedChallenges');
 
-    let stepsTaken = userProfile.doc(email).collection('StepsTaken');
 
-    stepsTaken.add(data).then(() => {
-        res.send({ msg: 'Added amount of steps', data });
+    let updatePromise = joinedChallenges.get().then(snap => {
+
+        let updatedChallenges = [],
+        height = userSnap.data().height,
+        dis = height * data.steps * .43;
+
+        snap.docs.forEach(doc => {
+            let  ch = doc.data(); // 'ch' short for challenge
+
+            if (!ch.achieved) {
+                ch.progress += dis;
+                if (ch.progress >= ch.distance) {
+                    ch.progress = ch.distance;
+                    ch.achieved = true;
+                }
+                doc.ref.set(lo.pick(ch, ['progress', 'achieved']), { merge: true });
+                ch.id = doc.id;
+                updatedChallenges.push(ch);
+            }
+        });
+
+        return updatedChallenges;
+    });
+
+
+
+    Promise.all([
+        stepsTaken.add(data),
+        updatePromise
+    ]).then(([_, updatedChallenges]) => {
+        res.send({ added: data, updatedChallenges });
     }).catch(next);
 
 });
