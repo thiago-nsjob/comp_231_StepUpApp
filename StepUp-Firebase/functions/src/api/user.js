@@ -1,12 +1,15 @@
 const express = require('express');
 const lo = require('lodash');
 const db = require('../base/db');
+const middleware = require('../helpers/middleware');
 // const { hashString } = require('../helpers/hash');
 
 const route = express.Router();
 const userProfile = db.collection('UserProfile');
 
-const profileData = ['email', 'firstName', 'lastName', 'dob', 'weight', 'height'];
+const extractEmail = middleware.extractEmail();
+
+const profileData = [/*'email',*/ 'firstName', 'lastName', 'dob', 'weight', 'height'];
 
 // define the home page route
 route.get('/', function (req, res) {
@@ -14,16 +17,9 @@ route.get('/', function (req, res) {
   })
 
   //get by email
-route.get('/getByEmail', function(req, res,next) {
-    let email = req.query.email || req.body.email;
-  
-    let user = userProfile.doc(email);
+route.get('/getByEmail', extractEmail, (req, res, next) => {
 
-    if (!email || !/^\w+\.?\w*@\w+\.\w+$/.test(email)) {
-        return next(new Error(`Not an email!`));
-    }
-
-    
+    let user = userProfile.doc(req.email);
 
     user.get().then(snapshot => {
         res.json({
@@ -49,28 +45,20 @@ route.get([
     }).catch(next);
 });
 
-route.post('/create', (req, res, next) => {
+route.post('/create', extractEmail, (req, res, next) => {
 
-    let id, profile = {};
+    let email = req.email, profile = {};
 
     profileData.forEach(field => {
         profile[field] = lo.get(req, `body.${field}`, '');
     });
 
-    if (!/^\w+\.?\w*@\w+\.\w+$/.test(profile.email)) {
-        return next(new Error('Cannot create a user without an email'));
-    } else {
-        id = profile.email;
-        delete profile.email;
-    }
-
-    let ref = userProfile.doc(id);
+    let ref = userProfile.doc(email);
 
     ref.set(profile).then(() => {
-        profile.email = profile.id = id;
-        
+        profile.email = profile.id = email;
         res.json({
-            msg: `Created new user under ${id}`,
+            msg: `Created new user under ${email}`,
             data: profile
         });
 
@@ -80,20 +68,12 @@ route.post('/create', (req, res, next) => {
 
 
 //update
-route.put('/update', (req, res, next) => {
+route.put('/update', extractEmail, (req, res, next) => {
 
-    let data = req.body;
-    let email = req.query.email || req.body.email;
+    let data = req.body || {};
+    let ref = userProfile.doc(req.email);
 
-    if (!email || !/^\w+\.?\w*@\w+\.\w+$/.test(email)) {
-        return next(new Error('Not an id!'));
-    }
-
-    let ref = userProfile.doc(email);
-
-    ref.set(data || {}, {
-        merge: true
-    }).then(() => {
+    ref.set(data, { merge: true }).then(() => {
         res.json({ msg: 'Successfully updated', data }) // TEMP
     }).catch(next);
 
