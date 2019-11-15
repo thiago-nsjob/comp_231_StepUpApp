@@ -29,7 +29,7 @@ module.exports = {
             raiseError: raiseError != false
         };
 
-        mw.fn = (req, _res, next) => {
+        return mw.fn = (req, _res, next) => {
 
             let email =  req.query.email || req.body.email;
         
@@ -40,8 +40,6 @@ module.exports = {
         
             return mw.raiseError ? next(new Error('Not an email!')) : next();
         };
-
-        return mw.fn;
     },
 
 

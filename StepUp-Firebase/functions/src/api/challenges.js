@@ -1,12 +1,13 @@
 const express = require('express');
 const db = require('../base/db');
-const { extractEmail } = require('../helpers/middleware');
+const middleware = require('../helpers/middleware');
 
+const extractEmail = middleware.extractEmail();
 const challenges = db.collection('Challenges');
 const userProfile = db.collection('UserProfile');
 const route = express.Router();
 
-const challengeModel = ['title', 'active', 'description', 'distance', 'reward'];
+// const challengeModel = ['title', 'active', 'description', 'distance', 'reward'];
 
 
 
@@ -29,7 +30,7 @@ route.get('/available', (_, res) => {
 
 
 
-route.put('/join/:id', extractEmail(), async (req, res, next) => {
+route.put('/join/:id', extractEmail, async (req, res, next) => {
     
     let email = req.email, id = req.params.id;
     let userRef = userProfile.doc(email);
@@ -57,6 +58,21 @@ route.put('/join/:id', extractEmail(), async (req, res, next) => {
     });
 
 });
+
+
+
+route.put('/leave/:id', extractEmail, (req, res, next) => {
+
+    let email = req.email, id = req.params.id;
+
+    let userRef = userProfile.doc(email),
+    joined = userRef.collection('JoinedChallenges');
+
+    joined.doc(id).delete().then(() => {
+        res.json({ msg: `${email} left ${id}` });
+    }).catch(next);
+});
+
 
 
 route.get([
