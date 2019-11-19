@@ -9,6 +9,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import Home from './screens/home/Home';
 import Profile from './screens/profile/Profile';
 import StepsAndStats from './screens/steps/StepsAndStats';
+import Challenges from './screens/challenges/Challenges';
 import{wrapIntoContext} from './components/Wrapper';
 
 
@@ -21,6 +22,9 @@ const AppNavigator = createDrawerNavigator({
   },
   Stats:{
     screen: wrapIntoContext(StepsAndStats)
+  },
+  Challenges:{
+    screen: wrapIntoContext(Challenges)
   }
 } );
 
