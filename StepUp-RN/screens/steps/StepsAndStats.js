@@ -191,7 +191,7 @@ export default class StepsAndStats extends React.Component {
               </Button>
               <View>
                 <Dialog.Container visible={this.state.dialogVisible}>
-                  <Dialog.Title>Account delete</Dialog.Title>
+                  <Dialog.Title>Set Goal</Dialog.Title>
                   <Dialog.Description>
                     What do you want to change your goal to:
             </Dialog.Description>
