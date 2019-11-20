@@ -161,48 +161,50 @@ export default class StepsAndStats extends React.Component {
           <Text>Goals and Steps</Text>
         </Header>
 
-        <Content style={styles.container}>
+        <Content>
+          <View style={styles.container}>
 
-          <Title style={styles.title}>{this.state.day} {this.state.month} {this.state.year}</Title>
+            <Title style={styles.title}>{this.state.day} {this.state.month} {this.state.year}</Title>
 
-          <View style={{ paddingLeft: "7%" }}>
-            <AnimatedCircularProgress
-              size={250}
-              width={3}
-              fill={this.state.fill}
-              tintColor="#00e0ff"
-              backgroundColor="#3d5875">
-              {
-                (fill) => (
-                  <Text>
-                    {this.state.pastStepCount} steps
+            <View style={{ paddingLeft: "4%" }}>
+              <AnimatedCircularProgress
+                size={250}
+                width={3}
+                fill={this.state.fill}
+                tintColor="#00e0ff"
+                backgroundColor="#3d5875">
+                {
+                  (fill) => (
+                    <Text>
+                      {this.state.pastStepCount} steps
                     </Text>
-                )
-              }
-            </AnimatedCircularProgress>
-          </View>
-
-          <Content>
-            <View style={{ paddingTop: 30, flexDirection: 'row', paddingLeft: 10, paddingRight: 10 }}>
-
-              <Text style={{ paddingTop: 10 }}> Daily Step Goal: {this.state.goal} </Text>
-              <Button onPress={this._showDialog}>
-                <Text> Update </Text>
-              </Button>
-              <View>
-                <Dialog.Container visible={this.state.dialogVisible}>
-                  <Dialog.Title>Set Goal</Dialog.Title>
-                  <Dialog.Description>
-                    What do you want to change your goal to:
-            </Dialog.Description>
-                  <Dialog.Input onChangeText={this.goalInputHandler} />
-                  <Dialog.Button label="Cancel" onPress={this.handleCancel} />
-                  <Dialog.Button label="OK" onPress={this.handleOk} />
-                </Dialog.Container>
-              </View>
+                  )
+                }
+              </AnimatedCircularProgress>
             </View>
-            <Text style={{ paddingTop: 10, paddingLeft: 10 }}> Current distance: {this.state.distance} km</Text>
-          </Content>
+
+            <Content>
+              <View style={{ paddingTop: 30, flexDirection: 'row', paddingLeft: 10, paddingRight: 10 }}>
+
+                <Text style={{ paddingTop: 10 }}> Daily Step Goal: {this.state.goal} </Text>
+                <Button onPress={this._showDialog}>
+                  <Text> Update </Text>
+                </Button>
+                <View>
+                  <Dialog.Container visible={this.state.dialogVisible}>
+                    <Dialog.Title>Set Goal</Dialog.Title>
+                    <Dialog.Description>
+                      What do you want to change your goal to:
+            </Dialog.Description>
+                    <Dialog.Input onChangeText={this.goalInputHandler} />
+                    <Dialog.Button label="Cancel" onPress={this.handleCancel} />
+                    <Dialog.Button label="OK" onPress={this.handleOk} />
+                  </Dialog.Container>
+                </View>
+              </View>
+              <Text style={{ paddingTop: 10, paddingLeft: 10 }}> Current distance: {this.state.distance} km</Text>
+            </Content>
+          </View>
         </Content>
 
       </Container>
