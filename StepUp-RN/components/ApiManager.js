@@ -34,7 +34,7 @@ export const ApiManager = {
   },
 
   PUT: async(url,data) =>{
-    console.log('about to call'+url);
+    console.log('Put request to '+url)
 
     return await fetch(url,{
       method: 'PUT', // *GET, POST, PUT, DELETE, etc.
