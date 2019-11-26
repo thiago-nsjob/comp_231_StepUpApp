@@ -9,16 +9,14 @@ const route = express.Router();
 
 // const challengeModel = ['title', 'active', 'description', 'distance', 'reward'];
 
-
-
-
 route.get('/available', (_, res) => {
+    
     let query = challenges.where('active', '==', true);
 
     let available = [];
 
     query.get().then(snap => {
-        snap.docs.forEach(doc => {
+            snap.docs.forEach(doc => {
             let data = doc.data();
             data.id = doc.id;
             available.push(data);
@@ -89,9 +87,6 @@ route.get([
     });
 
 });
-
-
-
 
 
 module.exports = route;
