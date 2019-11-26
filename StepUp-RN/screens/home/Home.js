@@ -1,7 +1,7 @@
 
 import React,{Component} from 'react';
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
-import {StyleSheet,StatusBar} from 'react-native';
+import {StyleSheet,StatusBar,Image} from 'react-native';
 
 const styles = StyleSheet.create({
   initialSpace: {
@@ -19,6 +19,7 @@ export default class Home extends React.Component {
         <Header>
           <Body>
             <Title>Home</Title>
+            
           </Body>
           <Right />
         </Header>
