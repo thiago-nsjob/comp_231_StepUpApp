@@ -32,15 +32,21 @@ export default class ChallengeModal extends Component {
               </Left>
             </CardItem>
             <CardItem>
-              <Body >
+              <Body>
                 <Text>Awarding:</Text>
                 <Text note>{this.props.reward}</Text>
               </Body>
             </CardItem>
             <CardItem>
               <Left>
-                <Button style={{ margin: 5 }} success 
-                onPress={(e)=>this.props.handleMessage("Successfully joined!")}>
+                <Button
+                  style={{ margin: 5 }}
+                  success
+                  onPress={e => {
+                    this.props.handleMessage("Successfully joined!");
+                    this.props.toggle();
+                  }}
+                >
                   <Text>Join</Text>
                 </Button>
               </Left>

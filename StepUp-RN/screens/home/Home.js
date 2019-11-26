@@ -24,7 +24,7 @@ export default class Home extends React.Component {
           <Right />
         </Header>
         <Content>
-           <Text>Home stuff</Text>
+           <Text>Challenges progress</Text>
         </Content>
       </Container>  
         )}

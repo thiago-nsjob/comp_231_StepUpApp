@@ -14,7 +14,8 @@ import {
   Button,
   Right,
   Badge,
-  Left
+  Left,
+  Toast
 } from "native-base";
 import ChallengeModal from "./ChallengeModal";
 
@@ -81,7 +82,7 @@ export default class ChallengeEntry extends Component {
           description={description}
           reward={reward}
           url ={url}
-          handleMessage={this.props.handleMessage}
+          handleMessage={this.showMessage}
         />
       </View>
     );
