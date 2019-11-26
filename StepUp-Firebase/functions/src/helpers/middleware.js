@@ -24,6 +24,7 @@ module.exports = {
 
 
     extractEmail({ raiseError, testRegExp }={}) {
+        
         let mw = {
             testRegExp: testRegExp != false,
             raiseError: raiseError != false
