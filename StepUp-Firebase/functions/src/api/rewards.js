@@ -7,7 +7,8 @@ const challenges = db.collection('Challenges');
 //const userProfile = db.collection('UserProfile');
 const rewards = db.collection('Reward');
 const route = express.Router();
-const admin = require('firebase-admin');
+//const admin = require('firebase-admin');
+const firebase = require('firebase');
 
 const rewardData = ['rewardName', 'Steprequired'];
 
@@ -41,13 +42,13 @@ route.get('/available', (_, res) => {
 });
 
 //did not work properly
-route.put('/claim',(req,res,next) => {
+route.put('/claim',extractEmail,(req,res,next) => {
       
   let data = req.body || {};
-  let documentId;
+  let documentId,stepRequired;
   //'RewardName', '==', req.body.RewardName
   // Create a query against the collection to get a document
-  //.
+  //looking for a reward based on name and status
   rewards.where('RewardName', '==', req.body.RewardName)
          .where('active','==',true)
                      .get()
@@ -56,22 +57,31 @@ route.put('/claim',(req,res,next) => {
                           res.json({msg:'No matching documents.'});
                           return;
                         }  
-                                            
+                        //get rewardId and step required for the reward                    
                         snapshot.forEach(doc => {
-                          documentId = doc.id;
-                          //res.json({msg:data.id,save:doc.data()});
+                          documentId = doc.id;                          
+                          stepRequired = doc.data().StepRequired;
                         });
+
+                        //
                         let ref =  rewards.doc(documentId);
-                        /*
-                        ref.set(data, { merge: true}).then(() => {
-                            res.json({ msg: 'Successfully updated user reward', data }); // TEMP
-                        });*/
-                        ref.update({
-                          users: admin.firestore.FieldValue.arrayUnion('kel@gmail.com')
-                          //users:['kelvin','kelvin2']
-                        }).then(() => {
-                          res.json({ msg: 'Successfully updated user reward', data }); // TEMP
-                        });
+                        
+                        if(req.body.steps >= stepRequired)
+                        {
+                          ref.update({
+                            users: firebase.firestore.FieldValue.arrayUnion(req.body.email)                          
+                            }).then(() => {
+                                       res.json({ msg: 'Successfully updated user reward', data,steps:stepRequired  }); // TEMP 
+                            });
+                        }
+                        else{
+                          res.json({
+                            msg:'Not enough steps'
+                          });
+                        }
+                          
+
+
                       })
                       .catch(err => {                     
                       res.status('Error getting documents').send(err);
