@@ -73,6 +73,24 @@ route.put('/leave/:id', extractEmail, (req, res, next) => {
 
 
 
+route.get('/joined', extractEmail, (req, res, next) => {
+    let email = req.email;
+    let userRef = userProfile.doc(email);
+    let joinedChallenges = userRef.collection('JoinedChallenges');
+
+    joinedChallenges.get().then(snap => {
+        let challenges = [];
+        snap.docs.forEach(doc => {
+            let data = doc.data();
+            data.id = doc.id;
+            challenges.push(data);
+        });
+        res.json(challenges);
+    }).catch(next);
+});
+
+
+
 route.get([
     '/get/:id',
     '/:id'
