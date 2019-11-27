@@ -91,11 +91,9 @@ route.put('/claim',extractEmail,(req,res,next) => {
 });
 //
 
-route.delete('/delete/:id', extractEmail, (req,res)=>{
+route.delete('/delete', extractEmail, (req,res)=>{
 
 });
-
-
 
 module.exports = route;
 
