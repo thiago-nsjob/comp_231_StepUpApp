@@ -19,6 +19,7 @@ import {
 } from "native-base";
 import ChallengeModal from "./ChallengeModal";
 
+
 export default class ChallengeEntry extends Component {
   constructor() {
     super();
@@ -26,36 +27,24 @@ export default class ChallengeEntry extends Component {
       visible: false
     };
     this.closeModal = this.closeModal.bind(this);
-    this.showMessage = this.showMessage.bind(this);
   }
-  static propTypes = {
-    data: PropTypes.object.isRequired,
-    even: PropTypes.bool,
-    parallax: PropTypes.bool,
-    parallaxProps: PropTypes.object
-  };
+ 
 
   closeModal() {
     this.setState({ visible: !this.state.visible });
   }
-  showMessage(message) {
-    Toast.show({
-      text: message,
-      buttonText: "Okay",
-      duration: 3000
-    });
-  }
+  
   render() {
+    
     const {
-      data: { title, url, description, distance, reward }
+      data: { title, url, description, distance, reward,id }
     } = this.props;
-    console.log(url);
     return (
       <View>
         <TouchableOpacity onPress={e => this.closeModal()}>
           <Card style={styles.slideInnerContainer}>
             <CardItem header>
-              <Text numberOfLines={1}>{title}</Text>
+              <Text numberOfLines={1} style={{fontSize: 20}}>{title}</Text>
               <Right>
                 <Badge primary>
                   <Text>{distance}Km</Text>
@@ -65,11 +54,11 @@ export default class ChallengeEntry extends Component {
             <CardItem>
               <Image
                 source={{ uri: url }}
-                style={{ height: 150, width: null, flex: 1, borderRadius: 5 }}
+                style={{ height: 200, width: null, flex: 1, borderRadius: 5 }}
               />
             </CardItem>
             <CardItem footer>
-              <Text note numberOfLines={2}>
+              <Text note numberOfLines={4} style={{fontSize: 15}}>
                 {description}
               </Text>
             </CardItem>
@@ -82,7 +71,11 @@ export default class ChallengeEntry extends Component {
           description={description}
           reward={reward}
           url ={url}
-          handleMessage={this.showMessage}
+          id={id}
+          handleMessage={this.props.showMessage}
+          joinChallenge = {this.props.joinChallenge}
+          leaveChallenge = {this.props.leaveChallenge}
+          isJoined={this.props.isJoined}
         />
       </View>
     );

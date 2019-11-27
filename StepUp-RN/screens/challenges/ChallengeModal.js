@@ -16,8 +16,43 @@ import {
 import { View } from "react-native";
 import Modal from "react-native-modal";
 
+
+
 export default class ChallengeModal extends Component {
+
+  buildChallengeAction(){
+    if (this.props.isJoined)
+    return (
+      <Button
+        style={{ margin: 5 }}
+        success
+        onPress={e => {
+          this.props.toggle();
+          this.props.leaveChallenge(this.props.id);
+        }}
+      >
+        <Text>Leave</Text>
+      </Button>
+    );
+  else
+    return (
+      <Button
+        style={{ margin: 5 }}
+        success
+        onPress={e => {
+          this.props.toggle();
+          this.props.joinChallenge(this.props.id);
+        }}
+      >
+        <Text>Join</Text>
+      </Button>
+    );
+  } 
+
   render() {
+    const action = this.buildChallengeAction()
+    console.log(action);
+
     return (
       <Modal isVisible={this.props.visible}>
         <View style={{ flex: 1, justifyContent: "center" }}>
@@ -39,16 +74,7 @@ export default class ChallengeModal extends Component {
             </CardItem>
             <CardItem>
               <Left>
-                <Button
-                  style={{ margin: 5 }}
-                  success
-                  onPress={e => {
-                    this.props.handleMessage("Successfully joined!");
-                    this.props.toggle();
-                  }}
-                >
-                  <Text>Join</Text>
-                </Button>
+                {action}
               </Left>
               <Right>
                 <Button

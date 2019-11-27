@@ -22,11 +22,12 @@ export default StyleSheet.create({
     scrollview: {
         flex: 1
     },
-    exampleContainer: {
+    challengeContainer: {
         paddingVertical: 30
     },
-    exampleContainerDark: {
-        backgroundColor: colors.dark
+    challengeContainerDark: {
+        backgroundColor: colors.dark,
+        paddingTop:30
     },
     exampleContainerLight: {
         backgroundColor: 'white'
