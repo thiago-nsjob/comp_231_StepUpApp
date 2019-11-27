@@ -10,7 +10,7 @@ const route = express.Router();
 //const admin = require('firebase-admin');
 const firebase = require('firebase');
 
-const rewardData = ['rewardName', 'Steprequired'];
+//const rewardData = ['rewardName', 'Steprequired'];
 
 route.get('/', (_, res) => {
     res.send('rewards page')
@@ -41,59 +41,57 @@ route.get('/available', (_, res) => {
   
 });
 
-//did not work properly
+
 route.put('/claim',extractEmail,(req,res,next) => {
       
   let data = req.body || {};
   let documentId,stepRequired;
-  //'RewardName', '==', req.body.RewardName
+
   // Create a query against the collection to get a document
   //looking for a reward based on name and status
   rewards.where('RewardName', '==', req.body.RewardName)
          .where('active','==',true)
-                     .get()
-                     .then(snapshot => {
-                        if (snapshot.empty) {
-                          res.json({msg:'No matching documents.'});
-                          return;
-                        }  
-                        //get rewardId and step required for the reward                    
-                        snapshot.forEach(doc => {
-                          documentId = doc.id;                          
-                          stepRequired = doc.data().StepRequired;
-                        });
+          .get()
+          .then(snapshot => {
+            if (snapshot.empty) {
+              res.json({msg:'No matching documents.'});
+              return;
+            }  
+            //get rewardId and step required for the reward                    
+            snapshot.forEach(doc => {
+              documentId = doc.id;                          
+              stepRequired = doc.data().StepRequired;
+            });
 
-                        //
-                        let ref =  rewards.doc(documentId);
-                        
-                        if(req.body.steps >= stepRequired)
-                        {
-                          ref.update({
-                            users: firebase.firestore.FieldValue.arrayUnion(req.body.email)                          
-                            }).then(() => {
-                                       res.json({ msg: 'Successfully updated user reward', data,steps:stepRequired  }); // TEMP 
-                            });
-                        }
-                        else{
-                          res.json({
-                            msg:'Not enough steps'
-                          });
-                        }
-                          
+            //
+            let ref =  rewards.doc(documentId);
+            
+            if(req.body.steps >= stepRequired)
+            {
+              ref.update({
+                users: firebase.firestore.FieldValue.arrayUnion(req.body.email)                          
+                }).then(() => {
+                            res.json({ msg: 'Successfully updated user reward', data,steps:stepRequired  });
+                });
+            }
+            else{
+              res.json({
+                msg:'Not enough steps'
+              });
+            }
+              
+          })
+          .catch(err => {                     
+          res.status('Error getting documents').send(err);
+          });
 
-
-                      })
-                      .catch(err => {                     
-                      res.status('Error getting documents').send(err);
-                      });
-       
   
   
 
 });
 //
 
-route.delete('/delete/:id', extractEmail, async(req,res)=>{
+route.delete('/delete/:id', extractEmail, (req,res)=>{
 
 });
 
