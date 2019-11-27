@@ -27,7 +27,7 @@ route.get('/getByEmail', extractEmail, (req, res, next) => {
         });
     }).catch(next);
 });
- 
+
 //get by id
 route.get([
     '/get/:id',

@@ -1,7 +1,7 @@
 const express = require('express');
 const db = require('../base/db');
 const middleware = require('../helpers/middleware');
-
+const lo = require('lodash');
 const extractEmail = middleware.extractEmail();
 const challenges = db.collection('Challenges');
 const userProfile = db.collection('UserProfile');
@@ -9,16 +9,14 @@ const route = express.Router();
 
 // const challengeModel = ['title', 'active', 'description', 'distance', 'reward'];
 
-
-
-
 route.get('/available', (_, res) => {
+    
     let query = challenges.where('active', '==', true);
 
     let available = [];
 
     query.get().then(snap => {
-        snap.docs.forEach(doc => {
+            snap.docs.forEach(doc => {
             let data = doc.data();
             data.id = doc.id;
             available.push(data);
@@ -75,6 +73,34 @@ route.put('/leave/:id', extractEmail, (req, res, next) => {
 
 
 
+route.get('/joined', extractEmail, async (req, res, next) => {
+    let email = req.email, userRef = userProfile.doc(email),
+    joinedChallenges = userRef.collection('JoinedChallenges');
+
+    let snap = await joinedChallenges.get().catch(next);
+
+    let promises = [];
+
+    const mergeChallengeData = async function(doc) {
+        let data = doc.data();
+        data.id = doc.id;
+        let docRef = challenges.doc(doc.id);
+        let ch = await docRef.get();
+        return lo.merge(data, ch.data());
+    };
+
+    snap.docs.forEach(doc => {
+        promises.push(mergeChallengeData(doc));
+    });
+
+    Promise.all(promises).then(joined => {
+        res.json(joined);
+    }).catch(next);
+
+});
+
+
+
 route.get([
     '/get/:id',
     '/:id'
@@ -89,9 +115,6 @@ route.get([
     });
 
 });
-
-
-
 
 
 module.exports = route;
