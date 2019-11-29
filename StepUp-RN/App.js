@@ -58,7 +58,6 @@ class App extends React.Component{
        <Root>
                 <AppContainer /> 
                 {/* <StepsAndStats /> */}
-              
       </Root>
        
          

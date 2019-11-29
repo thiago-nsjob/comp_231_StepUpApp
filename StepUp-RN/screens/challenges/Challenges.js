@@ -47,6 +47,7 @@ export default class Challenges extends Component {
       featured: featuredChallenges,
       mychallenges: mychallenges
     };
+    
     this.setState({ challengesData: challengesData,loaded: true });
 
   }
