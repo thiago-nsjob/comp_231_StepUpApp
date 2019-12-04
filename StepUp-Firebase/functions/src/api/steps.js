@@ -1,11 +1,16 @@
-const express = require('express');
 const lo = require('lodash');
-const db = require('../base/db');
-const { extractEmail } = require('../helpers/middleware');
+const {
+    extractEmail,
+    attachCommon,
+    attachErrorHandlers
+} = require('../helpers/middleware');
 
+const db = require('../base/db');
 const userProfile = db.collection('UserProfile');
 
-const route = express.Router();
+const express = require('express');
+const route = attachCommon( express() );
+
 
 
 // const stepsModel = {
@@ -141,4 +146,4 @@ route.get('/distance', (req, res, next) => {
 
 
 
-module.exports = route;
+module.exports = attachErrorHandlers( route );

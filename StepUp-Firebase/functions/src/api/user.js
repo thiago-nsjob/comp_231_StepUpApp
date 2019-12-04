@@ -1,22 +1,22 @@
-const express = require('express');
+const middleware = require('../helpers/middleware');
+const { attachCommon, attachErrorHandlers } = middleware;
+const extractEmail = middleware.extractEmail();
+
 const lo = require('lodash');
 const db = require('../base/db');
-const middleware = require('../helpers/middleware');
-// const { hashString } = require('../helpers/hash');
-
-const route = express.Router();
 const userProfile = db.collection('UserProfile');
 
-const extractEmail = middleware.extractEmail();
+const express = require('express');
+const route = attachCommon( express() );
 
 const profileData = [/*'email',*/ 'firstName', 'lastName', 'dob', 'weight', 'height'];
 
 // define the home page route
-route.get('/', function (req, res) {
-    res.send('User page')
-  })
+route.get('/', (_, res) => {
+    res.send('User page');
+});
 
-  //get by email
+// get by email
 route.get('/getByEmail', extractEmail, (req, res, next) => {
 
     let user = userProfile.doc(req.email);
@@ -80,4 +80,4 @@ route.put('/update', extractEmail, (req, res, next) => {
 });
 
 
-module.exports = route;
+module.exports = attachErrorHandlers( route );
