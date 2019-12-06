@@ -1,12 +1,14 @@
-const express = require('express');
 const db = require('../base/db');
-
-const middleware = require('../helpers/middleware');
-const extractEmail = middleware.extractEmail();
 const challenges = db.collection('Challenges');
 //const userProfile = db.collection('UserProfile');
 const rewards = db.collection('Reward');
-const route = express.Router();
+
+const middleware = require('../helpers/middleware');
+const extractEmail = middleware.extractEmail();
+const { attachCommon, attachErrorHandlers } = middleware;
+
+const express = require('express');
+const route = attachCommon( express() );
 //const admin = require('firebase-admin');
 const firebase = require('firebase');
 
@@ -92,9 +94,8 @@ route.put('/claim',extractEmail,(req,res,next) => {
 //
 
 route.delete('/delete', extractEmail, (req,res)=>{
-
+  throw new Error('Not yet implemented');
 });
 
-module.exports = route;
 
-
+module.exports = attachErrorHandlers( route );

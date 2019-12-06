@@ -1,11 +1,18 @@
 {
-    "hosting": {
-      "public": "public",
-      "rewrites":[{
-        "source":"**",
-        "function":"app"
-      }]
-  
-    }
+  "hosting": {
+    "public": "public",
+    "rewrites":[{
+      "source": "/user/**",
+      "function": "user"
+    }, {
+      "source": "/challenges/**",
+      "function": "challenges"
+    }, {
+      "source": "/steps/**",
+      "function": "steps"
+    }, {
+      "source": "/rewards/**",
+      "function": "rewards"
+    }]
+  }
 }
-  
