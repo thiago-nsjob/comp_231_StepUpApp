@@ -10,6 +10,7 @@ import Home from "./screens/home/Home";
 import Profile from "./screens/profile/Profile";
 import StepsAndStats from "./screens/steps/StepsAndStats";
 import Challenges from "./screens/challenges/Challenges";
+import Rewards from './screens/rewards/Rewards';
 import { wrapIntoContext } from "./components/Wrapper";
 
 const AppNavigator = createDrawerNavigator(
