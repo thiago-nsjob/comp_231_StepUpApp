@@ -51,7 +51,7 @@ export default class ChallengeModal extends Component {
 
   render() {
     const action = this.buildChallengeAction()
-    console.log(action);
+    
 
     return (
       <Modal isVisible={this.props.visible}>

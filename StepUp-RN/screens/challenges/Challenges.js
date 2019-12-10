@@ -16,7 +16,6 @@ import Carousel, { Pagination } from "react-native-snap-carousel";
 import { sliderWidth, itemWidth } from "./style/ChallengeEntry.style";
 import ChallengeEntry from "./ChallengeEntry";
 import styles, { colors } from "./style/index.style";
-import { ENTRIES1, ENTRIES2 } from "./Entries";
 
 const SLIDER_1_FIRST_ITEM = 1;
 
@@ -108,7 +107,7 @@ export default class Challenges extends Component {
           onSnapToItem={index => this.setState({ slider1ActiveSlide: index })}
         />
         <Pagination
-          dotsLength={ENTRIES1.length}
+          dotsLength={data.length}
           activeDotIndex={slider1ActiveSlide}
           containerStyle={styles.paginationContainer}
           dotColor={"rgba(255, 255, 255, 0.92)"}
@@ -147,7 +146,7 @@ export default class Challenges extends Component {
           onSnapToItem={index => this.setState({ slider1ActiveSlide: index })}
         />
         <Pagination
-          dotsLength={ENTRIES1.length}
+          dotsLength={data.length}
           activeDotIndex={slider1ActiveSlide}
           containerStyle={styles.paginationContainer}
           dotColor={"rgba(255, 255, 255, 0.92)"}

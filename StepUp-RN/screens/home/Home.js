@@ -12,6 +12,7 @@ import {
 } from "native-base";
 import { StyleSheet, StatusBar } from "react-native";
 import { ProgressCircle } from "react-native-svg-charts";
+import { withNavigationFocus } from "react-navigation";
 
 const styles = StyleSheet.create({
   initialSpace: {
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class Home extends React.Component {
+class Home extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -29,31 +30,45 @@ export default class Home extends React.Component {
     };
   }
 
+  componentWillReceiveProps() {}
+
   async componentDidMount() {
     let mychallenges = await this.props.apiManager.GET(
       `https://step-up-app.firebaseapp.com/challenges/joined?email=${this.state.userId}`
     );
     this.setState({ challengesData: mychallenges, loaded: true });
+
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("didFocus", () => {
+      this.componentDidMount();
+    });
   }
 
   buildCharts() {
     if (this.state.challengesData) {
-      return this.state.challengesData.map((item,i) => {
-        console.log(item);
+      return this.state.challengesData.map((item, i) => {
         return (
-          <Card style={{height:300}} key={i}>
+          <Card style={{ height: 300 }} key={i}>
             <CardItem header>
               <Text>{item.title} progress</Text>
             </CardItem>
-            
+
             <ProgressCircle
-                style={{ height: 200 }}
-                progress={item.progress/item.distance}
-                progressColor={"rgb(134, 65, 244)"}
-                animate = {true}
-                animateDuration={100}
-              /> 
-            <Thumbnail large source={{ uri: item.url }} style={{position: 'absolute', alignSelf: 'center',    bottom: '35%'}} />
+              style={{ height: 200 }}
+              progress={item.progress / item.distance}
+              progressColor={"rgb(134, 65, 244)"}
+              animate={true}
+              animateDuration={100}
+            />
+            <Thumbnail
+              large
+              source={{ uri: item.url }}
+              style={{
+                position: "absolute",
+                alignSelf: "center",
+                bottom: "35%"
+              }}
+            />
           </Card>
         );
       });
@@ -89,3 +104,5 @@ export default class Home extends React.Component {
     }
   }
 }
+
+export default withNavigationFocus(Home);
