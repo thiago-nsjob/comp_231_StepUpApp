@@ -47,7 +47,7 @@ export default class ChallengeEntry extends Component {
               <Text numberOfLines={1} style={{fontSize: 20}}>{title}</Text>
               <Right>
                 <Badge primary>
-                  <Text>{distance}Km</Text>
+                  <Text>{distance}m</Text>
                 </Badge>
               </Right>
             </CardItem>

@@ -5,6 +5,7 @@ import { Container, Header, Tab, Tabs, TabHeading, Icon, Text, Left, Body,
   Title, Right, Button, Fab, Toast, Item, Content, Input, Card, CardItem, Thumbnail} from 'native-base';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import Dialog from "react-native-dialog";
+import Share from './Share';
 
 
 export default class StepsAndStats extends React.Component {
@@ -67,15 +68,16 @@ export default class StepsAndStats extends React.Component {
               <Left>
                 <Button transparent>
                   <Icon active name="ios-share-alt" />
-                  <Text>Share</Text>
+                  {/* <Text>Share</Text> */}
+                  <Share passedMessage="I just won a free coffee from Tims!"/>
                 </Button>
               </Left>
-              <Body>
+              {/* <Body>
                 <Button transparent>
                   <Icon active name="logo-facebook" />
                   <Text>Post on Facebook</Text>
                 </Button>
-              </Body>
+              </Body> */}
               <Right>
                 <Text>11h ago</Text>
               </Right>
@@ -110,15 +112,16 @@ export default class StepsAndStats extends React.Component {
               <Left>
                 <Button transparent>
                   <Icon active name="ios-share-alt" />
-                  <Text>Share</Text>
+                  {/* <Text>Share</Text> */}
+                  <Share passedMessage="I just got 80% off Nike's newest shoe!"/>
                 </Button>
               </Left>
-              <Body>
+              {/* <Body>
                 <Button transparent>
                   <Icon active name="logo-facebook" />
                   <Text>Post on Facebook</Text>
                 </Button>
-              </Body>
+              </Body> */}
               <Right>
                 <Text>16h ago</Text>
               </Right>
