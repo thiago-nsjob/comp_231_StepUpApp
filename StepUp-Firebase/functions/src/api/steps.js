@@ -30,7 +30,7 @@ route.post('/log', async (req, res, next) => {
         timestamp: lo.get(req, 'body.timestamp', Date.now())
     };
 
-    if (isNaN(data.steps) || lo.toNumber(data.steps) <= 0 ) {
+    if (isNaN(data.steps) || lo.toNumber(data.steps) <= 0) {
         return next(new Error('Steps should be a number > 0.'));
     } else {
         data.steps = Number(data.steps);
@@ -46,20 +46,26 @@ route.post('/log', async (req, res, next) => {
     let updatePromise = joinedChallenges.get().then(snap => {
 
         let updatedChallenges = [],
-        height = userSnap.data().height,
-        dis = height * data.steps * .43;
+        height = userSnap.data().height; // cm
+
+        // Unit is in 'cm' based on height
+        let disCM = height * data.steps * .43;
+
+        // Convert disCM to 'm'
+        let disM = disCM * .01;
 
         snap.docs.forEach(doc => {
-            let  ch = doc.data(); // 'ch' short for challenge
+            let ch = doc.data(); // 'ch' short for challenge
 
             if (!ch.achieved) {
-                ch.progress += dis;
+                ch.progress += disM;
                 if (ch.progress >= ch.distance) {
                     ch.progress = ch.distance;
                     ch.achieved = true;
                 }
                 doc.ref.set(lo.pick(ch, ['progress', 'achieved']), { merge: true });
                 ch.id = doc.id;
+                ch.unit = 'meters';
                 updatedChallenges.push(ch);
             }
         });
@@ -106,7 +112,11 @@ route.get('/total', (req, res) => {
 route.get('/distance', (req, res, next) => {
     let email = req.email;
 
-    let total = { steps: 0, distance: 0 };
+    let total = {
+        steps: 0,
+        distance: 0 // m
+    };
+
     let steps = [];
 
     let userRef = userProfile.doc(email);
@@ -129,7 +139,11 @@ route.get('/distance', (req, res, next) => {
             data.id = result.id;
 
             data.steps = data.steps || 0;
-            data.distance = height * data.steps * .43;
+            let disCM = height * data.steps * .43;
+
+            // Convert disCM to 'm'
+            data.distance = disCM * .01;
+            data.unit = 'meters';
             
             total.steps += data.steps;
             total.distance += data.distance;
