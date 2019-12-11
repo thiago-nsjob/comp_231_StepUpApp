@@ -19,17 +19,16 @@ export default class StepsAndStats extends React.Component {
     month: new Date().getMonth().toLocaleString(),
     day: new Date().getDate().toLocaleString(),
     stepsObj: {
-      steps: 1234,
+      steps: 0,
     },
   };
 
   componentDidMount() {
     this._subscribe();
     // let profileData =   this.props.apiManager.GET('https://step-up-app.firebaseapp.com/steps/log?email={email_address}');
-    // this.props.apiManager.POST('https://step-up-app.firebaseapp.com/steps/log?email=brentonh@email.com', this.state.stepsObj);
 
 
-    // let distance = this.props.apiManager.GET('https://step-up-app.firebaseapp.com/steps/distance?email=brentonh@email.com');
+    // let distance = this.props.apiManager.GET('https://step-up-app.firebaseapp.com/steps/distance?email=brenton@email.com');
     // distance.then( (response) => {
     //   console.log(response.total.distance);
     //   this.setState({
@@ -37,13 +36,13 @@ export default class StepsAndStats extends React.Component {
     //   })
     // });
 
-    // let goal = this.props.apiManager.GET('https://step-up-app.firebaseapp.com/user/get/brentonh@email.com');
-    // goal.then( (response) => {
-    //   console.log(response.data.goal);
-    //   this.setState({
-    //     goal: response.data.goal,
-    //   })
-    // });
+    let goal = this.props.apiManager.GET('https://step-up-app.firebaseapp.com/user/get/brenton@email.com');
+    goal.then( (response) => {
+      console.log(response.data.goal);
+      this.setState({
+        goal: response.data.goal,
+      })
+    });
 
     //Setting a goal
     // this.props.apiManager.PUT("https://step-up-app.firebaseapp.com/user/update?email=brentonh@email.com", {goal: 888});
@@ -60,8 +59,12 @@ export default class StepsAndStats extends React.Component {
 
   _subscribe = () => {
     this._subscription = Pedometer.watchStepCount(result => {
+      //Set the steps
       this.setState({
         currentStepCount: result.steps,
+        stepsObj: {
+          steps: result.steps,
+        }
       });
 
       const end = new Date();
@@ -73,7 +76,7 @@ export default class StepsAndStats extends React.Component {
           this.setState({
             fill: newFill,
             pastStepCount: result.steps,
-            distance: result.steps / 1312,
+            distance: Number((result.steps / 1312).toFixed(1)),
           });
         },
         error => {
@@ -136,16 +139,20 @@ export default class StepsAndStats extends React.Component {
 
   handleOk = () => {
     this.setState({ dialogVisible: false });
+    this.props.apiManager.PUT("https://step-up-app.firebaseapp.com/user/update?email=brenton@email.com", {goal: this.state.goal});
   };
 
   goalInputHandler = (enteredText) => {
-    if (enteredText < this.state.pastStepCount) {
-      enteredText = this.state.pastStepCount;
-      this.setState({ goal: enteredText });
-    } else {
-      this.setState({ goal: enteredText });
-    }
+    this.setState({ goal: enteredText });
     this._subscribe();
+  }
+
+  getPositiveDifference = (a, b) => {
+    if(a > b){
+      return a - b;
+    } else{
+      return b - a;
+    }
   }
 
 
