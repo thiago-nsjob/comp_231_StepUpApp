@@ -26,6 +26,9 @@ const AppNavigator = createDrawerNavigator(
     },
     Challenges: {
       screen: wrapIntoContext(Challenges)
+    },
+    Rewards: {
+      screen: wrapIntoContext(Rewards)
     }
   },
   {
