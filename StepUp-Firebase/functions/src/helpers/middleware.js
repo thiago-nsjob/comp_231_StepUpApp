@@ -1,4 +1,3 @@
-// const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const lo = require('lodash');
 const express = require('express');

@@ -11,8 +11,6 @@ const extractEmail = middleware.extractEmail();
 const express = require('express');
 const route = attachCommon( express() );
 
-// const challengeModel = ['title', 'active', 'description', 'distance', 'reward'];
-
 route.get('/available', (_, res) => {
     
     let query = challenges.where('active', '==', true);

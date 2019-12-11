@@ -9,7 +9,7 @@ const userProfile = db.collection('UserProfile');
 const express = require('express');
 const route = attachCommon( express() );
 
-const profileData = [/*'email',*/ 'firstName', 'lastName', 'dob', 'weight', 'height'];
+const profileData = ['firstName', 'lastName', 'dob', 'weight', 'height'];
 
 // define the home page route
 route.get('/', (_, res) => {
@@ -67,14 +67,13 @@ route.post('/create', extractEmail, (req, res, next) => {
 });
 
 
-//update
 route.put('/update', extractEmail, (req, res, next) => {
 
     let data = req.body || {};
     let ref = userProfile.doc(req.email);
 
     ref.set(data, { merge: true }).then(() => {
-        res.json({ msg: 'Successfully updated', data }) // TEMP
+        res.json({ msg: 'Successfully updated', data });
     }).catch(next);
 
 });

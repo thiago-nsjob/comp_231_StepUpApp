@@ -12,12 +12,6 @@ const express = require('express');
 const route = attachCommon( express() );
 
 
-
-// const stepsModel = {
-//     steps: Number,
-//     timestamp: Number
-// };
-
 route.use(
     extractEmail({ raiseError: true })
 );

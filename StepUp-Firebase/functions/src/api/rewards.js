@@ -1,6 +1,5 @@
 const db = require('../base/db');
 const challenges = db.collection('Challenges');
-//const userProfile = db.collection('UserProfile');
 const rewards = db.collection('Reward');
 
 const middleware = require('../helpers/middleware');
@@ -9,10 +8,7 @@ const { attachCommon, attachErrorHandlers } = middleware;
 
 const express = require('express');
 const route = attachCommon( express() );
-//const admin = require('firebase-admin');
 const firebase = require('firebase');
-
-//const rewardData = ['rewardName', 'Steprequired'];
 
 route.get('/', (_, res) => {
     res.send('rewards page')
