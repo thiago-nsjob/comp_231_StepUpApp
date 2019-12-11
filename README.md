@@ -27,18 +27,18 @@ Install the Expo client app on your iOS or Android phone and connect to the same
 
 
 ### Working Demo of our App
-![](StepUpDemo.gif1)
+![](StepUpDemo1.gif)
 
 Home Page.
 
-![](StepUpDemo.gif2)
+![](StepUpDemo2.gif)
 
 Step Tracker, and changing your daily step goal.
 
-![](StepUpDemo.gif3)
+![](StepUpDemo3.gif)
 
 Challenges, and you can join and leave.
 
-![](StepUpDemo.gif4)
+![](StepUpDemo4.gif)
 
 Viewing your rewards, and sharing it to social media.
